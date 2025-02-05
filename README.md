@@ -19,7 +19,9 @@ AUTHORIZATION_KEY = Токен авторизации гигачата
 CREATOR = ID автора бота (Опционально, если не нужны уведомления о генерациях, удалить строки 59-64)
 
 Также для работы бота необходим корневой сертификат минцифр. Скачать бесплатно с госуслуг по ссылке: https://www.gosuslugi.ru/crt.
-Имя сертификату дать: russian_trusted_root_ca.cer
+Для системы на ОС Windows - russian_trusted_root_ca.cer
+Для системы на ОС Linux - russian_trusted_root_ca.crt
+Имя сертификату дать: russian_trusted_root_ca.cer или поменять название в файле generate_seleg.py на нужный.
 
 Для запуска бота необходимо запустить файл main.py:
 selebot.py

@@ -1,5 +1,6 @@
 import os
 import logging
+# from dotenv import load_dotenv
 
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import (
@@ -7,6 +8,8 @@ from telegram.ext import (
 )
 from text_messege import ABOUT_MES, AUTHOR
 from genegate_seleg import genegate, get_balance
+
+# load_dotenv()
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -73,10 +76,28 @@ async def name(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def about(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    replay_markup = ReplyKeyboardMarkup(
+        [['Начать', 'О боте'], ['Автор']],
+        resize_keyboard=True
+    )
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=ABOUT_MES + str(get_balance())
     )
+
+"""При низком балансе"""
+
+
+async def low_balance(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    replay_markup = ReplyKeyboardMarkup(
+        [['О боте', 'Автор']],
+        resize_keyboard=True
+    )
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text='Баланс токенов слимшком низкий что бы что то сгенерировать!'
+    )
+
 
 """Вывод команды о ошибке."""
 
@@ -111,6 +132,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             chat_id=update.effective_chat.id,
             text=AUTHOR
         )
+    elif get_balance() < 500:
+        await low_balance(update, context)
     elif text == 'Начать' or data[0] == 'Начать':
         await name(update, context)
     else:
